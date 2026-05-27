@@ -3638,7 +3638,33 @@ app.get('/api/cloud-storage/hydrate-record', async (req, res) => {
     }
 });
 
+function ensureWwwSynced() {
+    const rootDir = path.join(__dirname, '..');
+    const wwwDir = path.join(rootDir, 'www');
+    const indexPath = path.join(wwwDir, 'index.html');
+    if (fs.existsSync(indexPath)) {
+        return;
+    }
+    const syncScript = path.join(rootDir, 'scripts', 'sync-www.js');
+    if (!fs.existsSync(syncScript)) {
+        console.warn('[auth-server] scripts/sync-www.js غير موجود — لا يمكن توليد www/');
+        return;
+    }
+    console.log('[auth-server] www/ غير موجود — تشغيل sync-www تلقائياً...');
+    const r = spawnSync(process.execPath, [syncScript], {
+        cwd: rootDir,
+        stdio: 'inherit',
+        env: process.env
+    });
+    if (r.status !== 0) {
+        console.warn('[auth-server] sync-www فشل، رمز الخروج:', r.status);
+    } else if (fs.existsSync(indexPath)) {
+        console.log('[auth-server] تم توليد www/ بنجاح');
+    }
+}
+
 function mountGostaStaticFromWww() {
+    ensureWwwSynced();
     const wwwDir = path.join(__dirname, '..', 'www');
     if (!fs.existsSync(wwwDir)) {
         console.warn('[auth-server] مجلد www غير موجود — شغّل: npm run sync:www');
