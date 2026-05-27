@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="تسجيل دخول المالك">
+    <meta name="theme-color" content="#2c3e50">
+    <title>تسجيل دخول المالك — GOSTA</title>
+    <link rel="stylesheet" href="admin-login-styles.css">
+    <link rel="stylesheet" href="admin-login-responsive.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="mobile-app.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">            <div class="login-brand">
+                <h1>📊 GOSTA</h1>
+                <p>لوحة التحكم الإدارية</p>
+            </div>
+            <div class="login-features">
+                <div class="feature-item">
+                    <span class="feature-icon">📈</span>
+                    <span>مراقبة الاشتراكات</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💳</span>
+                    <span>إدارة الدفعات</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🏦</span>
+                    <span>التحويلات البنكية</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">👥</span>
+                    <span>إدارة المستخدمين</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="login-form-container">
+                <h2>تسجيل دخول المالك</h2>
+                <p class="subtitle">أدخل بيانات المالك للدخول إلى لوحة التحكم</p>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="adminEmail">البريد الإلكتروني</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📧</span>
+                            <input 
+                                type="email" 
+                                id="adminEmail" 
+                                placeholder="admin@example.com" 
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adminPassword">كلمة المرور</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔐</span>
+                            <input 
+                                type="password" 
+                                id="adminPassword" 
+                                placeholder="أدخل كلمة المرور" 
+                                required
+                            >
+                            <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">تذكرني</label>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                        <span>🔓 دخول</span>
+                    </button>
+                </form>
+
+                <div id="errorMessage" class="error-message" style="display: none;">
+                    <span class="error-icon">❌</span>
+                    <span id="errorText"></span>
+                </div>
+
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <span class="success-icon">✅</span>
+                    <span id="successText"></span>
+                </div>                <div class="login-footer">
+                    <p>جاري إعادة التوجيه إلى البرنامج الرئيسي...</p>
+                    <a href="index.html" class="back-link">← العودة إلى البرنامج الرئيسي</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-login.js"></script>
+</body>
+</html>
