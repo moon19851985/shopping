@@ -1,0 +1,29 @@
+[
+  {
+    "email": "abuageelh@gmail.com",
+    "password": "123123123",
+    "securityAnswer": "m",
+    "code": null,
+    "verified": true,
+    "createdAt": "2026-05-22T22:04:18.849Z",
+    "lastEmailSent": true,
+    "lastMailError": null,
+    "vaultKeySeed": "b294754e95f10c40e636ed35bb5b4702d70604b332b34266c5627ccaa737c5f5",
+    "verifiedAt": "2026-05-22T22:04:37.510Z",
+    "passwordResetPending": null,
+    "lastPasswordResetSent": true,
+    "lastPasswordResetMailError": null,
+    "passwordResetAt": "2026-05-22T22:53:23.929Z"
+  },
+  {
+    "email": "mhalfahad85@gmail.com",
+    "password": "123123",
+    "securityAnswer": "m",
+    "code": "303259",
+    "verified": false,
+    "createdAt": "2026-05-22T22:06:45.038Z",
+    "lastEmailSent": true,
+    "lastMailError": null,
+    "vaultKeySeed": "5e715c90de93774ab42f77dc06a46148682a86df7cad7f45e8861a307abfe4b5"
+  }
+]

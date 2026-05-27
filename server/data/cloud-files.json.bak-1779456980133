@@ -1,0 +1,86 @@
+{
+  "mhalfahad86@gmail.com": {
+    "email": "mhalfahad86@gmail.com",
+    "files": [],
+    "deletedFiles": [],
+    "backupFiles": [],
+    "folders": [
+      {
+        "id": "fld_1779372954931_5o6puxm",
+        "name": "مستندات البيت",
+        "createdAt": "2026-05-21T14:15:54.932Z"
+      },
+      {
+        "id": "fld_1779372966299_wd0ux0p",
+        "name": "مستندات المحل",
+        "createdAt": "2026-05-21T14:16:06.299Z"
+      }
+    ],
+    "updatedAt": "2026-05-21T14:20:15.575Z",
+    "storageBackend": "r2"
+  },
+  "abuageelh@gmail.com": {
+    "email": "abuageelh@gmail.com",
+    "files": [],
+    "deletedFiles": [
+      {
+        "id": 1779455945702.8867,
+        "name": "gosta-ai-1778872625179.png",
+        "type": "image/png",
+        "size": "1.38 MB",
+        "deletedAt": "٢٢‏/٥‏/٢٠٢٦ ٤:٢٢:٤٢ م",
+        "uploadedAt": "٢٢‏/٥‏/٢٠٢٦ ٤:١٩:٠٥ م",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779455945702.8867.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779454506783.3518,
+        "name": "Screenshot_٢٠٢٦-٠٥-٢٢-١٠-٣٤-١٣-٣٢٦_org.mozilla.firefox.jpg",
+        "type": "image/jpeg",
+        "size": "0.38 MB",
+        "deletedAt": "٢٢‏/٥‏/٢٠٢٦ ٤:٢٢:٣٨ م",
+        "uploadedAt": "٢٢‏/٥‏/٢٠٢٦ ٣:٥٥:٠٦ م",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779454506783.3518.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779453981147.1892,
+        "name": "Screenshot_٢٠٢٦-٠٥-٢٢-١٢-٠٣-٤٦-٧٥٣_org.mozilla.firefox.jpg",
+        "type": "image/jpeg",
+        "size": "0.46 MB",
+        "deletedAt": "٢٢‏/٥‏/٢٠٢٦ ٤:٠٨:٥١ م",
+        "uploadedAt": "٢٢‏/٥‏/٢٠٢٦ ٣:٤٦:٢١ م",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779453981147.1892.enc",
+        "storageBackend": "r2"
+      }
+    ],
+    "backupFiles": [
+      {
+        "id": 1779456177441.183,
+        "name": "gosta-ai-1778872676848.png",
+        "type": "image/png",
+        "size": "1.38 MB",
+        "uploadedAt": "٢٢‏/٥‏/٢٠٢٦ ٤:٢٢:٥٧ م",
+        "deletedAt": "٢٢‏/٥‏/٢٠٢٦ ٤:٢٣:٢١ م",
+        "backedUpAt": "٢٢‏/٥‏/٢٠٢٦ ٤:٣٠:١٠ م",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/backup/1779456177441.183.enc",
+        "storageBackend": "r2"
+      }
+    ],
+    "folders": [],
+    "updatedAt": "2026-05-22T13:30:12.329Z",
+    "storageBackend": "r2"
+  }
+}

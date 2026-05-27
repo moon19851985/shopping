@@ -1,0 +1,52 @@
+{
+  "abuageelh@gmail.com": {
+    "email": "abuageelh@gmail.com",
+    "files": [],
+    "deletedFiles": [],
+    "backupFiles": [],
+    "folders": [
+      {
+        "id": "fld_1779707857923_21wpf9d",
+        "name": "البيت",
+        "createdAt": "2026-05-25T11:17:37.923Z"
+      },
+      {
+        "id": "fld_1779707880136_qdwtyij",
+        "name": "المقهى",
+        "createdAt": "2026-05-25T11:18:00.136Z"
+      }
+    ],
+    "updatedAt": "2026-05-25T13:24:01.476Z",
+    "storageBackend": "r2"
+  },
+  "mhalfahad85@gmail.com": {
+    "email": "mhalfahad85@gmail.com",
+    "files": [
+      {
+        "id": 1779714439479.1753,
+        "name": "Screenshot_٢٠٢٦-٠٥-٢١-١١-٣١-٠٨-١٦٣_com.miui.gallery-edit.jpg",
+        "type": "image/jpeg",
+        "size": "0.32 MB",
+        "uploadedAt": "٢٥‏/٥‏/٢٠٢٦ ٤:٠٧:١٩ م",
+        "isLocked": true,
+        "isCompressed": false,
+        "isEncrypted": true
+      },
+      {
+        "id": 1779714439339.3623,
+        "name": "Screenshot_٢٠٢٦-٠٥-٢٥-١١-١٣-١٣-٨٨٨_com.whatsapp.jpg",
+        "type": "image/jpeg",
+        "size": "0.73 MB",
+        "uploadedAt": "٢٥‏/٥‏/٢٠٢٦ ٤:٠٧:١٩ م",
+        "isLocked": true,
+        "isCompressed": false,
+        "isEncrypted": true
+      }
+    ],
+    "deletedFiles": [],
+    "backupFiles": [],
+    "folders": [],
+    "updatedAt": "2026-05-25T13:14:09.677Z",
+    "storageBackend": "r2"
+  }
+}

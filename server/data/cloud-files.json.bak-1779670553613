@@ -1,0 +1,32 @@
+{
+  "mhalfahad86@gmail.com": {
+    "email": "mhalfahad86@gmail.com",
+    "files": [],
+    "deletedFiles": [
+      {
+        "id": 1779607544166.9167,
+        "name": "1000674724.jpg",
+        "type": "image/jpeg",
+        "size": "0.24 MB",
+        "deletedAt": "٢٤‏/٥‏/٢٠٢٦، ١٠:٢٥:٥٠ ص",
+        "uploadedAt": "٢٤‏/٥‏/٢٠٢٦، ١٠:٢٥:٤٤ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false
+      }
+    ],
+    "backupFiles": [],
+    "folders": [],
+    "updatedAt": "2026-05-24T07:25:51.176Z",
+    "storageBackend": "r2"
+  },
+  "abuageelh@gmail.com": {
+    "email": "abuageelh@gmail.com",
+    "files": [],
+    "deletedFiles": [],
+    "backupFiles": [],
+    "folders": [],
+    "updatedAt": "2026-05-24T23:10:04.708Z",
+    "storageBackend": "r2"
+  }
+}

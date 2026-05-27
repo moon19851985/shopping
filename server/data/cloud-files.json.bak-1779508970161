@@ -1,0 +1,53 @@
+{
+  "mhalfahad85@gmail.com": {
+    "email": "mhalfahad85@gmail.com",
+    "files": [],
+    "deletedFiles": [],
+    "backupFiles": [],
+    "folders": [
+      {
+        "id": "fld_1779494482969_qavjv4p",
+        "name": "البيت",
+        "createdAt": "2026-05-23T00:01:22.969Z"
+      }
+    ],
+    "updatedAt": "2026-05-23T00:04:48.687Z",
+    "storageBackend": "r2"
+  },
+  "abuageelh@gmail.com": {
+    "email": "abuageelh@gmail.com",
+    "files": [],
+    "deletedFiles": [],
+    "backupFiles": [],
+    "folders": [
+      {
+        "id": "fld_1779496489648_6eyfhyh",
+        "name": "العمل",
+        "createdAt": "2026-05-23T00:34:49.648Z"
+      }
+    ],
+    "updatedAt": "2026-05-23T00:39:13.591Z",
+    "storageBackend": "r2"
+  },
+  "mhalfahad86@gmail.com": {
+    "email": "mhalfahad86@gmail.com",
+    "files": [],
+    "deletedFiles": [
+      {
+        "id": 1779508815730.5046,
+        "name": "Screenshot_٢٠٢٦-٠٥-٢٢-١٢-٠٣-١٥-٤٩٨_org.mozilla.firefox.jpg",
+        "type": "image/jpeg",
+        "size": "0.48 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦ ٧:٠٠:٤٣ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦ ٧:٠٠:١٥ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false
+      }
+    ],
+    "backupFiles": [],
+    "folders": [],
+    "updatedAt": "2026-05-23T04:00:44.014Z",
+    "storageBackend": "r2"
+  }
+}

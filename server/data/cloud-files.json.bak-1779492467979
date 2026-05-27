@@ -1,0 +1,149 @@
+{
+  "abuageelh@gmail.com": {
+    "email": "abuageelh@gmail.com",
+    "files": [],
+    "deletedFiles": [
+      {
+        "id": 1779490205680.815,
+        "name": "1000674074.jpg",
+        "type": "image/jpeg",
+        "size": "0.28 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ٢:١٢:٥١ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٥٠:٠٥ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779490205680.815.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779489130160.4453,
+        "name": "1000674133.mp4",
+        "type": "video/mp4",
+        "size": "17.28 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ٢:١٢:٥٦ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٣٢:١٠ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779489130160.4453.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779488399062.6528,
+        "name": "1000674088.jpg",
+        "type": "image/jpeg",
+        "size": "0.37 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٣١:٤٧ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٩:٥٩ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779488399062.6528.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779488353024.4126,
+        "name": "1000673487.jpg",
+        "type": "image/jpeg",
+        "size": "0.32 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٣١:٥٠ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٩:١٣ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779488353024.4126.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779488281858.2559,
+        "name": "1000674211.jpg",
+        "type": "image/jpeg",
+        "size": "0.03 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٣١:٥٢ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٨:٠١ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779488281858.2559.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779488249380.936,
+        "name": "1000674109.jpg",
+        "type": "image/jpeg",
+        "size": "0.40 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٣١:٥٤ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٧:٢٩ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779488249380.936.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779488198380.4868,
+        "name": "1000674074.jpg",
+        "type": "image/jpeg",
+        "size": "0.28 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٧:٠٦ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٦:٣٨ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false
+      },
+      {
+        "id": 1779488123848.3645,
+        "name": "1000674021.jpg",
+        "type": "image/jpeg",
+        "size": "0.46 MB",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٧:٠٩ ص",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:١٥:٢٣ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/deleted/1779488123848.3645.enc",
+        "storageBackend": "r2"
+      }
+    ],
+    "backupFiles": [
+      {
+        "id": 1779490539040.6577,
+        "name": "1000670711.png",
+        "type": "image/png",
+        "size": "0.95 MB",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٥٥:٣٩ ص",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ٢:١٣:٤٧ ص",
+        "backedUpAt": "٢٣‏/٥‏/٢٠٢٦، ٢:٢١:٠٣ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/backup/1779490539040.6577.enc",
+        "storageBackend": "r2"
+      },
+      {
+        "id": 1779490482543.8252,
+        "name": "شهادة رسم سهارى الاخضر.pdf",
+        "type": "application/pdf",
+        "size": "0.74 MB",
+        "uploadedAt": "٢٣‏/٥‏/٢٠٢٦، ١:٥٤:٤٢ ص",
+        "deletedAt": "٢٣‏/٥‏/٢٠٢٦، ٢:١٤:٢٦ ص",
+        "backedUpAt": "٢٣‏/٥‏/٢٠٢٦، ٢:٢٣:٣٢ ص",
+        "isLocked": true,
+        "isEncrypted": true,
+        "isCompressed": false,
+        "s3Key": "users/abuageelh@gmail.com/backup/1779490482543.8252.enc",
+        "storageBackend": "r2"
+      }
+    ],
+    "folders": [
+      {
+        "id": "fld_1779487795671_mbyjczl",
+        "name": "البيت",
+        "createdAt": "2026-05-22T22:09:55.671Z"
+      }
+    ],
+    "updatedAt": "2026-05-22T23:24:30.525Z",
+    "storageBackend": "r2"
+  }
+}
