@@ -1,0 +1,44 @@
+{
+  "name": "gosta",
+  "version": "1.0.0",
+  "description": "تطبيق ويب وجوال آمن لإدارة الملفات والاشتراكات",
+  "private": true,
+  "scripts": {
+    "icons:generate": "node scripts/generate-icons.js",
+    "auth-server": "node server/auth-server.js",
+    "verify:r2": "node scripts/verify-r2.js",
+    "reset:cloud": "node scripts/reset-cloud-storage.js",
+    "r2:prune-orphans": "node scripts/prune-r2-orphans.js",
+    "preview": "npm run sync:www && node scripts/preview-server.js",
+    "sync:www": "node scripts/sync-www.js",
+    "ai:smoke": "node scripts/ai-assistant-smoke-check.js",
+    "cap:sync": "npm run icons:generate && npm run sync:www && npx cap sync android",
+    "set:production-api": "node scripts/set-production-api.js",
+    "android:open": "npx cap open android",
+    "android:build": "npm run cap:sync && cd android && .\\gradlew.bat assembleRelease",
+    "android:bundle": "npm run cap:sync && cd android && .\\gradlew.bat bundleRelease",
+    "android:bundle:store": "npm run set:production-api && npm run android:bundle"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1048.0",
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@napi-rs/canvas": "^1.0.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "better-sqlite3": "^12.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "googleapis": "^171.4.0",
+    "jimp": "^0.22.12",
+    "nodemailer": "^6.9.15",
+    "pdfjs-dist": "^4.10.38",
+    "pdfkit": "^0.18.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.0"
+  },
+  "author": "gosta",
+  "license": "MIT"
+}
