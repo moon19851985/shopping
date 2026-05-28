@@ -7859,6 +7859,26 @@ function initAuthHandlers() {
             try {
                 await waitForAuthDiscoveryIfNeeded();
 
+                // منع إعادة التسجيل لبريد مفعل مسبقاً حتى بعد حذف بيانات المتصفح.
+                try {
+                    const statusRes = await fetch(
+                        `${AUTH.apiBase}/api/registration-status?email=${encodeURIComponent(email)}`,
+                        { method: 'GET', cache: 'no-store' }
+                    );
+                    const statusData = await statusRes.json().catch(() => ({}));
+                    if (
+                        statusRes.ok &&
+                        statusData &&
+                        statusData.registered === true &&
+                        statusData.verified === true
+                    ) {
+                        alert('⚠️ هذا البريد مسجّل ومفعّل مسبقاً. استخدم تسجيل الدخول.');
+                        return;
+                    }
+                } catch (statusErr) {
+                    console.warn('registration-status precheck failed:', statusErr);
+                }
+
                 const res = await fetch(`${AUTH.apiBase}/api/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
