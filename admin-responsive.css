@@ -640,6 +640,23 @@
         padding: 12px !important;
     }
 
+    /* بطاقات الإحصائيات بجانب بعض على الجوال */
+    .stats-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 10px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .stats-grid .stat-card {
+        flex: 0 0 220px !important;
+        min-width: 220px !important;
+        margin: 0 !important;
+    }
+
     .table-responsive {
         overflow-x: auto !important;
     }
@@ -659,10 +676,18 @@
     }
 
     .stats-grid {
-        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
+        overflow-x: auto !important;
     }
 
     .stat-card {
         padding: 12px !important;
+    }
+
+    .stats-grid .stat-card {
+        flex: 0 0 200px !important;
+        min-width: 200px !important;
     }
 }
