@@ -1045,6 +1045,156 @@ function getCrossDeviceAccessForEmail(emailNorm) {
     return { ok: false };
 }
 
+/** تحويل حقل size من سجل السحابة إلى ميغابايت (متوافق مع التطبيق). */
+function cloudFileSizeToMb(size) {
+    if (size == null || size === '') {
+        return 0;
+    }
+    const sizeStr = String(size).trim();
+    if (sizeStr.includes(' MB')) {
+        return parseFloat(sizeStr.replace(' MB', '').trim()) || 0;
+    }
+    if (/^\d+$/.test(sizeStr)) {
+        return parseFloat((Number(sizeStr) / 1024 / 1024).toFixed(2));
+    }
+    return parseFloat(sizeStr) || 0;
+}
+
+function sumCloudFileListsMb(lists) {
+    let total = 0;
+    (Array.isArray(lists) ? lists : []).forEach(function (list) {
+        (Array.isArray(list) ? list : []).forEach(function (f) {
+            total += cloudFileSizeToMb(f && f.size);
+        });
+    });
+    return Math.round(total * 100) / 100;
+}
+
+function computeCloudUsedMbForEmail(emailNorm) {
+    const em = String(emailNorm || '').trim().toLowerCase();
+    if (!em) {
+        return 0;
+    }
+    const store = loadCloudFilesStore();
+    const payload = store[em];
+    if (!payload) {
+        return 0;
+    }
+    return sumCloudFileListsMb([payload.files, payload.deletedFiles, payload.backupFiles]);
+}
+
+function findLatestSubscriptionLogForEmail(emailNorm) {
+    const em = String(emailNorm || '').trim().toLowerCase();
+    if (!em) {
+        return null;
+    }
+    const logs = loadSubscriptionLogs().filter(function (l) {
+        const u = String(l.userEmail || l.email || '')
+            .trim()
+            .toLowerCase();
+        return u === em;
+    });
+    if (!logs.length) {
+        return null;
+    }
+    logs.sort(function (a, b) {
+        const ta = new Date(a.loggedAt || a.startDate || a.expiryDate || 0).getTime();
+        const tb = new Date(b.loggedAt || b.startDate || b.expiryDate || 0).getTime();
+        return tb - ta;
+    });
+    return logs[0];
+}
+
+function daysRemainingFromExpiryIso(expiryIso) {
+    const exp = expiryIso ? new Date(expiryIso).getTime() : NaN;
+    if (!Number.isFinite(exp)) {
+        return { daysRemaining: null, expired: null };
+    }
+    const daysRemaining = Math.ceil((exp - Date.now()) / (1000 * 60 * 60 * 24));
+    return {
+        daysRemaining: daysRemaining > 0 ? daysRemaining : 0,
+        expired: exp < Date.now()
+    };
+}
+
+/** ملخص للوحة الإدارة فقط — قراءة؛ لا يغيّر صلاحيات المستخدم. */
+function buildAdminUsageSummaryForEmail(emailNorm) {
+    const em = String(emailNorm || '').trim().toLowerCase();
+    const usedMb = computeCloudUsedMbForEmail(em);
+
+    const activeSub = findBestActiveSubscriptionForEmail(em);
+    if (activeSub) {
+        const dr = daysRemainingFromExpiryIso(activeSub.expiryDate);
+        return {
+            usedMb: usedMb,
+            quotaMb: Number(activeSub.storage) || 300,
+            daysRemaining: dr.daysRemaining,
+            expired: false,
+            expiryDate: activeSub.expiryDate || null,
+            plan: String(activeSub.type || '').toUpperCase() || 'INDEX3',
+            planName: activeSub.planName || ''
+        };
+    }
+
+    const trial = getFreePremiumTrialInfoForEmail(em);
+    if (trial) {
+        const dr = daysRemainingFromExpiryIso(trial.expiresAt);
+        return {
+            usedMb: usedMb,
+            quotaMb: 1000,
+            daysRemaining: dr.daysRemaining,
+            expired: false,
+            expiryDate: trial.expiresAt,
+            plan: 'free-trial',
+            planName: 'تجربة مجانية (10 أيام)'
+        };
+    }
+
+    const latestLog = findLatestSubscriptionLogForEmail(em);
+    if (latestLog) {
+        const dr = daysRemainingFromExpiryIso(latestLog.expiryDate);
+        const planType = String(latestLog.type || '').toUpperCase();
+        return {
+            usedMb: usedMb,
+            quotaMb: Number(latestLog.storage) || (planType === 'FREE' ? 1000 : 300),
+            daysRemaining: dr.expired ? 0 : dr.daysRemaining,
+            expired: !!dr.expired,
+            expiryDate: latestLog.expiryDate || null,
+            plan: planType || 'INDEX3',
+            planName: latestLog.planName || ''
+        };
+    }
+
+    const reg = findVerifiedRegistrationByEmail(em);
+    if (reg) {
+        const startedAtMs = new Date(reg.createdAt || reg.verifiedAt || 0).getTime();
+        const expiresAtMs = startedAtMs + FREE_PREMIUM_TRIAL_DAYS * 24 * 60 * 60 * 1000;
+        const expired = !Number.isFinite(startedAtMs) || Date.now() > expiresAtMs;
+        const daysRemaining = expired
+            ? 0
+            : Math.max(0, Math.ceil((expiresAtMs - Date.now()) / (1000 * 60 * 60 * 24)));
+        return {
+            usedMb: usedMb,
+            quotaMb: 1000,
+            daysRemaining: daysRemaining,
+            expired: expired,
+            expiryDate: Number.isFinite(expiresAtMs) ? new Date(expiresAtMs).toISOString() : null,
+            plan: 'free',
+            planName: expired ? 'مجاني تجريبي' : 'مجاني تجريبي (نشط)'
+        };
+    }
+
+    return {
+        usedMb: usedMb,
+        quotaMb: null,
+        daysRemaining: null,
+        expired: null,
+        expiryDate: null,
+        plan: '—',
+        planName: ''
+    };
+}
+
 function requiresSameDeviceForPlan(planCode) {
     const t = String(planCode || '').toUpperCase();
     return t === 'INDEX3' || t === 'INDEX4';
@@ -3346,6 +3496,46 @@ app.delete('/api/admin/subscription-logs', adminAuth, (req, res) => {
     } catch (e) {
         console.error('[auth-server] admin/subscription-logs delete error:', e);
         res.status(500).json({ error: 'clear_failed' });
+    }
+});
+
+/**
+ * ملخص المساحة والاشتراك لكل بريد (للوحة الإدارة فقط).
+ * يُستدعى عند فتح التبويب أو «مزامنة فورية» — لا polling من التطبيق.
+ */
+app.get('/api/admin/user-usage-summaries', adminAuth, (req, res) => {
+    try {
+        const emails = new Set();
+        loadRegs().forEach(function (r) {
+            const em = String(r.email || '')
+                .trim()
+                .toLowerCase();
+            if (em) {
+                emails.add(em);
+            }
+        });
+        loadSubscriptionLogs().forEach(function (l) {
+            const em = String(l.userEmail || l.email || '')
+                .trim()
+                .toLowerCase();
+            if (em) {
+                emails.add(em);
+            }
+        });
+        const store = loadCloudFilesStore();
+        Object.keys(store || {}).forEach(function (em) {
+            if (em) {
+                emails.add(String(em).trim().toLowerCase());
+            }
+        });
+        const summaries = {};
+        emails.forEach(function (em) {
+            summaries[em] = buildAdminUsageSummaryForEmail(em);
+        });
+        return res.json({ ok: true, summaries: summaries, collectedAtUtc: new Date().toISOString() });
+    } catch (e) {
+        console.error('[auth-server] admin/user-usage-summaries error:', e);
+        return res.status(500).json({ ok: false, error: 'read_failed' });
     }
 });
 
