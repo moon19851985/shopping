@@ -1,0 +1,497 @@
+/* ========================================
+   صفحة الاشتراكات — ألوان متوافقة مع هيدر الخزنة (vault-app-header)
+   ======================================== */
+
+#subscriptionsPage {
+    --subs-bg-deep: #0f1d3d;
+    --subs-bg-mid: #1a3270;
+    --subs-bg-accent: #3d52c7;
+    --subs-gradient: linear-gradient(135deg, #0f1d3d 0%, #1a3270 48%, #3d52c7 100%);
+    --subs-surface: #ffffff;
+    --subs-muted: #5c6b8a;
+    --subs-border: rgba(15, 29, 61, 0.1);
+    --subs-shadow: 0 10px 32px rgba(15, 26, 52, 0.18);
+}
+
+.subscriptions-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--subs-bg-deep);
+    background: var(--subs-gradient);
+    overflow-y: auto;
+    padding: 20px;
+    direction: rtl;
+}
+
+.subscriptions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    color: #fff;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.subscriptions-header .header-content {
+    flex: 1;
+    min-width: 0;
+    transform: translateX(14px);
+}
+
+.subscriptions-header .header-content h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.subscriptions-header .header-subtitle {
+    font-size: 15px;
+    opacity: 0.92;
+    line-height: 1.5;
+}
+
+.subscriptions-header .subscriptions-trial-note {
+    display: block;
+    font-size: 13px;
+    opacity: 0.88;
+    margin-top: 8px;
+    line-height: 1.45;
+    max-width: 560px;
+}
+
+.subscriptions-header .btn-back {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    padding: 10px 18px;
+    border-radius: 13px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.subscriptions-header .btn-back:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.42);
+    transform: translateX(-3px);
+}
+
+.plans-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.plan-card {
+    background: var(--subs-surface);
+    border-radius: 18px;
+    padding: 36px 26px 28px;
+    box-shadow: var(--subs-shadow);
+    border: 1px solid var(--subs-border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.plan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(15, 26, 52, 0.22);
+}
+
+.plan-card-premium {
+    border: 2px solid rgba(61, 82, 199, 0.45);
+    background: linear-gradient(180deg, #f4f6fc 0%, #ffffff 42%);
+}
+
+.plan-card-featured {
+    border: 2px solid rgba(61, 82, 199, 0.75);
+    box-shadow: 0 14px 44px rgba(61, 82, 199, 0.28), var(--subs-shadow);
+    transform: scale(1.02);
+}
+
+.plan-card-featured:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 48px rgba(61, 82, 199, 0.35), var(--subs-shadow);
+}
+
+.plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 14px rgba(15, 29, 61, 0.2);
+}
+
+.plan-badge-local {
+    background: var(--subs-gradient);
+}
+
+.plan-badge-cloud {
+    background: linear-gradient(135deg, #1a3270 0%, #667eea 100%);
+}
+
+.plan-badge-recommended {
+    left: auto;
+    right: 20px;
+    background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
+    box-shadow: 0 4px 16px rgba(230, 81, 0, 0.35);
+}
+
+.plan-card-featured .plan-badge-cloud {
+    top: -12px;
+    left: 20px;
+}
+
+.plan-tagline {
+    margin: 10px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--subs-bg-accent);
+    line-height: 1.5;
+}
+
+.plan-header {
+    text-align: center;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--subs-border);
+    padding-bottom: 18px;
+}
+
+.plan-header h2 {
+    font-size: 26px;
+    color: var(--subs-bg-deep);
+    margin-bottom: 6px;
+}
+
+.plan-subtitle {
+    color: var(--subs-muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.plan-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: rgba(15, 29, 61, 0.05);
+    border-radius: 12px;
+    border: 1px solid var(--subs-border);
+}
+
+.plan-price .price {
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--subs-bg-accent);
+}
+
+.plan-price .currency {
+    font-size: 17px;
+    color: var(--subs-bg-deep);
+    font-weight: 600;
+}
+
+.plan-price .period {
+    font-size: 13px;
+    color: var(--subs-muted);
+}
+
+.plan-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #f6f8fc;
+    border-radius: 10px;
+    border-right: 3px solid var(--subs-bg-accent);
+}
+
+.feature-icon {
+    font-size: 18px;
+    min-width: 26px;
+}
+
+.feature-text {
+    color: #24324d;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.feature-highlight {
+    background: linear-gradient(90deg, #eef2ff 0%, #f6f8fc 100%);
+    border-right-color: #667eea;
+}
+
+.feature-highlight .feature-text {
+    font-weight: 600;
+}
+
+.btn-subscribe {
+    background: var(--subs-gradient);
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    width: 100%;
+    margin-top: auto;
+}
+
+.btn-subscribe:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 24px rgba(26, 50, 112, 0.35);
+}
+
+.btn-subscribe:active {
+    transform: scale(0.99);
+}
+
+.btn-subscribe.btn-subscribe-disabled,
+.btn-subscribe:disabled {
+    opacity: 0.72;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-subscribe.btn-subscribe-disabled:hover,
+.btn-subscribe:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-subscribe-premium {
+    font-size: 16px;
+}
+
+.btn-subscribe-featured {
+    background: linear-gradient(135deg, #1a3270 0%, #667eea 55%, #5c6bc0 100%);
+    font-size: 17px;
+    padding: 16px 24px;
+}
+
+.btn-subscribe-featured:hover {
+    box-shadow: 0 10px 28px rgba(61, 82, 199, 0.45);
+}
+
+/* مقارنة الخطط */
+.comparison-section {
+    background: var(--subs-surface);
+    border-radius: 18px;
+    padding: 28px 22px 22px;
+    box-shadow: var(--subs-shadow);
+    border: 1px solid var(--subs-border);
+}
+
+.comparison-title {
+    text-align: center;
+    font-size: 24px;
+    margin: 0 0 20px;
+    color: var(--subs-bg-deep);
+    font-weight: 700;
+}
+
+.comparison-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+    border: 1px solid var(--subs-border);
+}
+
+.comparison-table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    direction: rtl;
+}
+
+.comparison-table thead {
+    background: var(--subs-gradient);
+    color: #fff;
+}
+
+.comparison-table th {
+    padding: 14px 12px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.comparison-table th:first-child {
+    text-align: right;
+    padding-right: 16px;
+}
+
+.comparison-table td {
+    padding: 12px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--subs-border);
+    color: #2a3550;
+    font-size: 13px;
+    line-height: 1.45;
+    vertical-align: middle;
+}
+
+.comparison-table td:first-child {
+    text-align: right;
+    font-weight: 600;
+    color: var(--subs-bg-deep);
+    background: rgba(15, 29, 61, 0.03);
+    white-space: nowrap;
+}
+
+.comparison-table tbody tr:nth-child(even) td:not(:first-child) {
+    background: #f8fafd;
+}
+
+.comparison-table tbody tr:hover td {
+    background: #eef2fb;
+}
+
+.comparison-table tbody tr:hover td:first-child {
+    background: #e8edf8;
+}
+
+.comparison-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.comparison-table tbody tr:last-child {
+    font-weight: 600;
+}
+
+.comparison-table tbody tr:last-child td:not(:first-child) {
+    color: var(--subs-bg-accent);
+}
+
+.comparison-table th.comparison-col-cloud,
+.comparison-table td.comparison-col-cloud {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.comparison-table thead th.comparison-col-cloud {
+    background: linear-gradient(135deg, #2a4088 0%, #667eea 100%);
+}
+
+.comparison-table tbody tr:hover td.comparison-col-cloud {
+    background: #e3e9ff;
+}
+
+@media (max-width: 768px) {
+    .subscriptions-container {
+        padding: 15px;
+    }
+
+    .subscriptions-header {
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .subscriptions-header .header-content h1 {
+        font-size: 24px;
+    }
+
+    .plans-container {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .plan-card {
+        padding: 28px 18px 22px;
+    }
+
+    .plan-card-featured {
+        transform: none;
+        order: -1;
+    }
+
+    .plan-card-featured:hover {
+        transform: translateY(-4px);
+    }
+
+    .plan-price .price {
+        font-size: 36px;
+    }
+
+    .comparison-section {
+        padding: 18px 12px 14px;
+    }
+
+    .comparison-title {
+        font-size: 20px;
+        margin-bottom: 14px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+}
+
+.terms-section-subscriptions {
+    background: rgba(255, 255, 255, 0.96);
+    padding: 18px 22px;
+    border-radius: 14px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #24324d;
+    box-shadow: 0 6px 20px rgba(15, 26, 52, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.terms-section-subscriptions input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--subs-bg-accent);
+}
+
+.terms-section-subscriptions label {
+    cursor: pointer;
+    user-select: none;
+}
+
+.terms-section-subscriptions a {
+    color: var(--subs-bg-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.terms-section-subscriptions a:hover {
+    text-decoration: underline;
+    color: var(--subs-bg-mid);
+}
