@@ -563,3 +563,106 @@
         page-break-inside: avoid;
     }
 }
+
+/* ============================================
+   Mobile fixes for current admin HTML structure
+   ============================================ */
+@media (max-width: 768px) {
+    .admin-container {
+        display: block !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: visible !important;
+    }
+
+    .sidebar {
+        width: 100% !important;
+        max-height: none !important;
+        height: auto !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        position: static !important;
+    }
+
+    .logo-section {
+        display: none !important;
+    }
+
+    .nav-menu {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-item {
+        flex: 0 0 auto !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        padding: 12px 10px !important;
+        border-right: none !important;
+        border-bottom: 3px solid transparent !important;
+        white-space: nowrap !important;
+        font-size: 12px !important;
+    }
+
+    .nav-item.active {
+        border-bottom-color: #9cc3ff !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+    }
+
+    .header {
+        position: static !important;
+        padding: 12px !important;
+    }
+
+    .header-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
+
+    .search-box {
+        width: 100% !important;
+    }
+
+    .tab-content {
+        padding: 12px !important;
+    }
+
+    .table-responsive {
+        overflow-x: auto !important;
+    }
+
+    .data-table {
+        min-width: 700px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-title h2 {
+        font-size: 20px !important;
+    }
+
+    .header-title p {
+        font-size: 12px !important;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .stat-card {
+        padding: 12px !important;
+    }
+}
