@@ -1,0 +1,379 @@
+/* ==================== استعلامات الوسائط لتسجيل دخول الإدارة - Admin Login Media Queries ==================== */
+
+/* شاشات صغيرة جداً - Extra Small (Mobile) */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .login-container {
+        flex-direction: column;
+        width: 95%;
+        height: auto;
+        min-height: 100vh;
+        border-radius: 12px;
+    }
+
+    /* القسم الأيسر */
+    .login-left {
+        flex: none;
+        width: 100%;
+        padding: 20px 15px;
+        justify-content: flex-start;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .login-brand h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .login-brand p {
+        font-size: 12px;
+    }
+
+    .login-features {
+        gap: 10px;
+        margin-top: 15px;
+        display: none;
+    }
+
+    /* القسم الأيمن */
+    .login-right {
+        flex: none;
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    .login-form-container h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .btn-login {
+        padding: 11px;
+        font-size: 13px;
+    }
+
+    .login-footer {
+        font-size: 11px;
+        margin-top: 12px;
+    }
+
+    .login-footer a {
+        font-size: 11px;
+    }
+}
+
+/* شاشات صغيرة - Small (Mobile) */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .login-container {
+        flex-direction: column;
+        width: 95%;
+        max-width: 100%;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    /* القسم الأيسر */
+    .login-left {
+        flex: none;
+        width: 100%;
+        padding: 25px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .login-brand h1 {
+        font-size: 26px;
+        margin-bottom: 10px;
+    }
+
+    .login-brand p {
+        font-size: 13px;
+    }
+
+    .login-features {
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .feature-item {
+        padding: 12px;
+    }
+
+    .feature-icon {
+        font-size: 24px;
+    }
+
+    .feature-item span:last-child {
+        font-size: 13px;
+    }
+
+    /* القسم الأيمن */
+    .login-right {
+        flex: none;
+        width: 100%;
+        padding: 25px 20px;
+        justify-content: flex-start;
+    }
+
+    .login-form-container h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input {
+        padding: 11px;
+        font-size: 14px;
+        min-height: 40px;
+    }
+
+    .btn-login {
+        padding: 12px;
+        font-size: 14px;
+        min-height: 44px;
+        width: 100%;
+    }
+
+    .login-footer {
+        font-size: 12px;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .login-footer a {
+        font-size: 12px;
+    }
+}
+
+/* شاشات متوسطة - Medium (Tablet) */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .login-container {
+        flex-direction: row;
+        width: 95%;
+        max-width: 900px;
+        height: auto;
+        min-height: 500px;
+    }
+
+    /* القسم الأيسر */
+    .login-left {
+        flex: 1;
+        padding: 40px 30px;
+        justify-content: space-between;
+    }
+
+    .login-brand h1 {
+        font-size: 32px;
+    }
+
+    .login-brand p {
+        font-size: 14px;
+    }
+
+    .login-features {
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .feature-item {
+        padding: 12px;
+    }
+
+    /* القسم الأيمن */
+    .login-right {
+        flex: 1;
+        padding: 40px 30px;
+    }
+
+    .login-form-container h2 {
+        font-size: 22px;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group input {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .btn-login {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+/* شاشات كبيرة - Large */
+@media (min-width: 1025px) {
+    .login-container {
+        width: 95%;
+        max-width: 1200px;
+        height: 600px;
+    }
+
+    /* القسم الأيسر */
+    .login-left {
+        flex: 1;
+        padding: 50px 40px;
+    }
+
+    .login-brand h1 {
+        font-size: 40px;
+    }
+
+    .login-features {
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    /* القسم الأيمن */
+    .login-right {
+        flex: 1;
+        padding: 50px 40px;
+    }
+
+    .login-form-container h2 {
+        font-size: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-login {
+        padding: 14px;
+        font-size: 16px;
+    }
+}
+
+/* اتجاهات الشاشات - Landscape */
+@media (orientation: landscape) and (max-height: 600px) {
+    .login-container {
+        height: auto;
+    }
+
+    .login-left {
+        padding: 20px 30px;
+    }
+
+    .login-brand h1 {
+        font-size: 28px;
+        margin-bottom: 5px;
+    }
+
+    .login-features {
+        display: none;
+    }
+
+    .login-right {
+        padding: 20px 30px;
+    }
+
+    .login-form-container h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group input {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .btn-login {
+        padding: 10px;
+        font-size: 13px;
+    }
+}
+
+/* أجهزة لمسية - Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+    button, .btn-login {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+
+    input {
+        font-size: 16px;
+        padding: 14px;
+        min-height: 44px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+    }
+
+    .feature-item {
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+        tap-highlight-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* شاشات عالية جداً - Tall Screens */
+@media (min-height: 1000px) and (max-width: 768px) {
+    .login-container {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .login-left {
+        padding: 40px 30px;
+    }
+
+    .login-right {
+        padding: 40px 30px;
+    }
+}
+
+/* شاشات عريضة جداً - Very Wide */
+@media (min-width: 1600px) {
+    .login-container {
+        max-width: 1400px;
+    }
+
+    .login-left,
+    .login-right {
+        padding: 60px 50px;
+    }
+
+    .login-brand h1 {
+        font-size: 48px;
+    }
+
+    .login-form-container h2 {
+        font-size: 28px;
+    }
+}

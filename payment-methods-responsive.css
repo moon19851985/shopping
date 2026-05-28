@@ -1,0 +1,389 @@
+/* ==================== استعلامات الوسائط لطرق الدفع - Payment Methods Media Queries ==================== */
+
+/* شاشات صغيرة جداً - Extra Small (Mobile) */
+@media (max-width: 480px) {
+    /* تحسين تخطيط صفحات الدفع */
+    .payment-container,
+    .method-container,
+    .form-container {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .method-header,
+    .form-header {
+        padding: 20px 15px;
+        font-size: 18px;
+    }
+
+    .method-content,
+    .form-content {
+        padding: 15px;
+    }
+
+    /* الحقول المخصصة */
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .form-group.half {
+        width: 100%;
+    }
+
+    /* الجداول والقوائم */
+    .details-list {
+        font-size: 12px;
+    }
+
+    .details-list li {
+        padding: 8px 0;
+    }
+
+    /* الأزرار */
+    .btn {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        font-size: 14px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    /* المؤشرات والرسائل */
+    .status-badge {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .info-box,
+    .warning-box,
+    .success-box {
+        padding: 12px;
+        font-size: 12px;
+        margin: 10px 0;
+    }
+
+    /* البطاقات */
+    .card-item {
+        padding: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* النصوص */
+    h1 { font-size: 18px; }
+    h2 { font-size: 16px; }
+    h3 { font-size: 14px; }
+    p { font-size: 12px; }
+}
+
+/* شاشات صغيرة - Small (Mobile) */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .payment-container,
+    .method-container,
+    .form-container {
+        max-width: 100%;
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .method-header,
+    .form-header {
+        padding: 25px 20px;
+        font-size: 20px;
+    }
+
+    .method-content,
+    .form-content {
+        padding: 20px;
+    }
+
+    /* الحقول */
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+        width: 100%;
+    }
+
+    .form-group.half {
+        width: 100%;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px;
+        font-size: 14px;
+        border-radius: 6px;
+    }
+
+    /* الجداول */
+    .details-list {
+        font-size: 13px;
+    }
+
+    .details-list li {
+        padding: 10px 0;
+    }
+
+    .details-table {
+        font-size: 12px;
+    }
+
+    .details-table th,
+    .details-table td {
+        padding: 10px;
+    }
+
+    /* الأزرار */
+    .btn {
+        width: 100%;
+        padding: 14px;
+        margin: 10px 0;
+        font-size: 15px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-small {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    /* المربعات المعلوماتية */
+    .info-box,
+    .warning-box,
+    .success-box,
+    .error-box {
+        padding: 15px;
+        font-size: 13px;
+        margin: 15px 0;
+    }
+
+    /* البطاقات */
+    .card-item {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+
+    /* الأيقونات */
+    .icon {
+        font-size: 20px;
+    }
+
+    /* النصوص */
+    h1 { font-size: 20px; margin-bottom: 15px; }
+    h2 { font-size: 18px; margin-bottom: 12px; }
+    h3 { font-size: 16px; margin-bottom: 10px; }
+    p { font-size: 13px; line-height: 1.6; }
+
+    /* الروابط */
+    a {
+        font-size: 13px;
+    }
+
+    /* القوائم */
+    ul, ol {
+        margin-right: 20px;
+    }
+
+    li {
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+}
+
+/* شاشات متوسطة - Medium (Tablet) */
+@media (max-width: 1024px) {
+    .payment-container,
+    .method-container,
+    .form-container {
+        max-width: 100%;
+        margin: 20px auto;
+    }
+
+    .form-row {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .form-group.half {
+        width: calc(50% - 7.5px);
+    }
+
+    .btn-group {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 12px;
+    }
+
+    .details-table {
+        font-size: 13px;
+    }
+
+    .details-table th,
+    .details-table td {
+        padding: 12px;
+    }
+}
+
+/* شاشات كبيرة - Large */
+@media (min-width: 1025px) {
+    .payment-container,
+    .method-container,
+    .form-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .form-row {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .form-group.half {
+        width: calc(50% - 10px);
+    }
+
+    .form-group.third {
+        width: calc(33.33% - 13.3px);
+    }
+
+    .btn-group {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 14px;
+    }
+}
+
+/* اتجاهات الشاشات - Landscape */
+@media (orientation: landscape) and (max-height: 600px) {
+    .payment-container,
+    .method-container,
+    .form-container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .method-header,
+    .form-header {
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .form-row {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+}
+
+/* أجهزة لمسية - Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+    button, .btn, a.btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+
+    input, select, textarea {
+        font-size: 16px;
+        padding: 14px;
+        min-height: 44px;
+        border-radius: 8px;
+    }
+
+    .form-group label {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .card-item {
+        -webkit-tap-highlight-color: rgba(102, 126, 234, 0.2);
+        tap-highlight-color: rgba(102, 126, 234, 0.2);
+    }
+
+    /* تحسين مسافات الضغط */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        margin: 12px 0;
+    }
+}
+
+/* شاشات عالية جداً - Tall Screens */
+@media (min-height: 1000px) and (max-width: 768px) {
+    .payment-container,
+    .method-container,
+    .form-container {
+        padding: 30px 20px;
+    }
+
+    .method-header,
+    .form-header {
+        padding: 30px 20px;
+    }
+}
+
+/* شاشات صغيرة جداً في الارتفاع */
+@media (max-height: 400px) {
+    .payment-container,
+    .method-container,
+    .form-container {
+        overflow-y: auto;
+        max-height: 100vh;
+    }
+
+    .method-header,
+    .form-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        padding: 10px;
+        font-size: 13px;
+    }
+}

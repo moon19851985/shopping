@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Calculator</title>
+    <meta name="theme-color" content="#667eea">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="mobile-app.css">
+</head>
+<body>
+    <script>
+        function hashString(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(16).padStart(32, '0');
+        }
+
+        const email = 'atc-41@hotmail.com';
+        const password = 'M05971330m';
+
+        console.log('Email Hash: ' + hashString(email));
+        console.log('Password Hash: ' + hashString(password));
+        
+        document.body.innerHTML = '<h1>Email Hash:</h1><p>' + hashString(email) + '</p>' +
+                                  '<h1>Password Hash:</h1><p>' + hashString(password) + '</p>';
+    </script>
+</body>
+</html>

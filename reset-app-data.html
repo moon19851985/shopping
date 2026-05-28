@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تصفير بيانات GOSTA — محلي</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 520px; margin: 32px auto; padding: 20px; line-height: 1.6; }
+        .danger { background: #c62828; color: #fff; border: none; padding: 14px 22px; font-size: 1rem; border-radius: 10px; cursor: pointer; }
+        .muted { opacity: 0.85; font-size: 0.95rem; }
+        a { color: #1565c0; }
+    </style>
+</head>
+<body>
+    <h1>تصفير التطبيق على هذا الجهاز</h1>
+    <p class="muted">يُمسح من <strong>المتصفح أو WebView الحالي فقط</strong>: الحساب المحفوظ، الاشتراك المحلي، إعدادات التجربة، تفضيلات البطاقة، وقواعد ملفات GOSTA في IndexedDB. <strong>لا يغيّر ملفات السيرفر</strong> — لذلك صفّر الخادم منفصلاً إن رغبت.</p>
+    <p><a href="index.html">← العودة بدون مسح</a></p>
+    <p>
+        <button type="button" class="danger" id="btnWipe">مسح كل البيانات المحلية</button>
+    </p>
+    <script>
+        document.getElementById('btnWipe').addEventListener('click', async function () {
+            if (!confirm('هل أنت متأكد؟ لا يمكن التراجع عن مسح البيانات من هذا الجهاز.')) return;
+            if (!confirm('تأكيد نهائي: سيتم مسح الحساب والملفات والاشتراك المحلي.')) return;
+            try { sessionStorage.clear(); } catch (e) {}
+            try { localStorage.clear(); } catch (e) {}
+            try {
+                if (indexedDB && typeof indexedDB.databases === 'function') {
+                    var list = await indexedDB.databases();
+                    for (var i = 0; i < list.length; i++) {
+                        var n = list[i] && list[i].name;
+                        if (n && n.indexOf('mediaAppDB_INDEX2') === 0) {
+                            indexedDB.deleteDatabase(n);
+                        }
+                    }
+                }
+            } catch (e) {}
+            try { indexedDB.deleteDatabase('mediaAppDB_INDEX2'); } catch (e) {}
+            alert('تم مسح البيانات المحلية. سيتم الانتقال للصفحة الرئيسية.');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

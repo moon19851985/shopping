@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجلات النشاطات الأمنية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .logs-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .log-filters {
+            padding: 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .log-table thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .log-table th {
+            padding: 12px;
+            text-align: right;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+
+        .log-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+
+        .log-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .log-level {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .level-INFO {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .level-WARNING {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .level-ERROR {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .level-SECURITY {
+            background: #f1b9b7;
+            color: #7d1f1a;
+        }
+
+        .timestamp {
+            color: #95a5a6;
+            font-size: 12px;
+        }
+
+        .admin-email {
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .action {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .details {
+            color: #7f8c8d;
+            max-width: 250px;
+            word-break: break-word;
+        }
+
+        .empty-state {
+            padding: 40px;
+            text-align: center;
+            color: #95a5a6;
+        }
+
+        .export-btn {
+            margin-right: 10px;
+        }
+
+        @media print {
+            .controls {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+        }
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="mobile-app.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 سجلات النشاطات الأمنية</h1>
+            <p style="color: #7f8c8d; margin-top: 5px;">تتبع جميع أنشطة المالك والعمليات الحساسة</p>
+
+            <div class="controls">
+                <button class="btn btn-primary export-btn" onclick="exportLogs()">📥 تحميل السجلات</button>
+                <button class="btn btn-secondary" onclick="refreshLogs()">🔄 تحديث</button>
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ طباعة</button>
+                <button class="btn btn-danger" onclick="clearLogs()">🗑️ مسح السجلات</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalLogs">0</div>
+                <div class="stat-label">إجمالي السجلات</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="securityLogs">0</div>
+                <div class="stat-label">تنبيهات أمان</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="errorLogs">0</div>
+                <div class="stat-label">أخطاء</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="warningLogs">0</div>
+                <div class="stat-label">تحذيرات</div>
+            </div>
+        </div>
+
+        <div class="logs-container">
+            <div class="log-filters">
+                <button class="filter-btn active" onclick="filterLogs('all')">الكل</button>
+                <button class="filter-btn" onclick="filterLogs('INFO')">معلومات</button>
+                <button class="filter-btn" onclick="filterLogs('WARNING')">تحذيرات</button>
+                <button class="filter-btn" onclick="filterLogs('ERROR')">أخطاء</button>
+                <button class="filter-btn" onclick="filterLogs('SECURITY')">أمان</button>
+            </div>
+
+            <table class="log-table">
+                <thead>
+                    <tr>
+                        <th>الوقت</th>
+                        <th>المالك</th>
+                        <th>النشاط</th>
+                        <th>التفاصيل</th>
+                        <th>المستوى</th>
+                    </tr>
+                </thead>
+                <tbody id="logsBody">
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            ⏳ لا توجد سجلات حتى الآن
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let allLogs = [];
+        let currentFilter = 'all';
+
+        // تحميل السجلات عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLogs();
+        });
+
+        function loadLogs() {
+            allLogs = JSON.parse(localStorage.getItem('adminActivityLogs') || '[]');
+            updateStats();
+            displayLogs();
+        }
+
+        function displayLogs() {
+            const logsBody = document.getElementById('logsBody');
+            
+            let filteredLogs = allLogs;
+            if (currentFilter !== 'all') {
+                filteredLogs = allLogs.filter(log => log.level === currentFilter);
+            }
+
+            if (filteredLogs.length === 0) {
+                logsBody.innerHTML = '<tr><td colspan="5" class="empty-state">⏳ لا توجد سجلات</td></tr>';
+                return;
+            }
+
+            // عرض السجلات بالترتيب العكسي (الأحدث أولاً)
+            logsBody.innerHTML = filteredLogs.reverse().map(log => `
+                <tr>
+                    <td class="timestamp">${formatDate(log.timestamp)}</td>
+                    <td class="admin-email">${log.admin}</td>
+                    <td class="action">${log.action}</td>
+                    <td class="details" title="${log.details}">${log.details || '-'}</td>
+                    <td><span class="log-level level-${log.level}">${log.level}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('totalLogs').textContent = allLogs.length;
+            document.getElementById('securityLogs').textContent = allLogs.filter(l => l.level === 'SECURITY').length;
+            document.getElementById('errorLogs').textContent = allLogs.filter(l => l.level === 'ERROR').length;
+            document.getElementById('warningLogs').textContent = allLogs.filter(l => l.level === 'WARNING').length;
+        }
+
+        function filterLogs(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            displayLogs();
+        }
+
+        function refreshLogs() {
+            loadLogs();
+            alert('تم تحديث السجلات');
+        }
+
+        function clearLogs() {
+            if (confirm('هل تريد مسح جميع السجلات؟ لا يمكن التراجع عن هذا الإجراء')) {
+                localStorage.removeItem('adminActivityLogs');
+                allLogs = [];
+                updateStats();
+                displayLogs();
+                alert('✅ تم مسح السجلات');
+            }
+        }
+
+        function exportLogs() {
+            const csv = convertToCSV(allLogs);
+            downloadCSV(csv, `admin-logs-${new Date().toISOString().split('T')[0]}.csv`);
+        }
+
+        function convertToCSV(data) {
+            const headers = ['الوقت', 'المالك', 'النشاط', 'التفاصيل', 'المستوى'];
+            const rows = data.map(log => [
+                formatDate(log.timestamp),
+                log.admin,
+                log.action,
+                log.details || '',
+                log.level
+            ]);
+
+            const csvContent = [
+                headers.join(','),
+                ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+            ].join('\n');
+
+            return csvContent;
+        }
+
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function formatDate(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleString('ar-SA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        // تحديث تلقائي كل 5 ثواني
+        setInterval(loadLogs, 5000);
+    </script>
+</body>
+</html>

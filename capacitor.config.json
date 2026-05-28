@@ -1,0 +1,11 @@
+{
+  "appId": "com.prsafe.securevault",
+  "appName": "GOSTA",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
