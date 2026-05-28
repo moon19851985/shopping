@@ -14,6 +14,9 @@
         overflow-x: auto;
         overflow-y: hidden;
         padding: 0;
+        position: sticky;
+        top: 0;
+        z-index: 60;
     }
 
     .logo-section {
@@ -45,16 +48,27 @@
         white-space: nowrap;
         flex-shrink: 0;
         min-width: auto;
+        border-right: none;
+        border-bottom: 3px solid transparent;
+        padding: 12px 10px;
+        gap: 8px;
     }
 
-    .nav-item a {
-        padding: 15px 12px;
+    .nav-item .icon {
+        font-size: 16px;
+    }
+
+    .nav-item span:last-child {
         font-size: 12px;
+    }
+
+    .nav-item.active {
+        border-bottom-color: #9cc3ff;
     }
 
     /* محتوى الصفحة الرئيسية */
     .main-content {
-        padding: 12px;
+        padding: 0;
         overflow-y: auto;
     }
 
@@ -75,6 +89,10 @@
         flex-direction: column;
         gap: 10px;
         margin-bottom: 15px;
+        padding: 12px;
+        position: sticky;
+        top: 52px;
+        z-index: 50;
     }
 
     .search-box {
@@ -87,6 +105,10 @@
     }
 
     /* الإحصائيات */
+    .tab-content {
+        padding: 12px;
+    }
+
     .stats-grid {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -113,7 +135,7 @@
     }
 
     .data-table {
-        min-width: 400px;
+        min-width: 640px;
     }
 
     .data-table th,
@@ -191,6 +213,9 @@
         flex-direction: row;
         overflow-x: auto;
         padding: 0;
+        position: sticky;
+        top: 0;
+        z-index: 60;
     }
 
     .logo-section {
@@ -220,17 +245,28 @@
     .nav-item {
         white-space: nowrap;
         flex-shrink: 0;
+        border-right: none;
+        border-bottom: 3px solid transparent;
+        padding: 12px 14px;
+        gap: 8px;
     }
 
-    .nav-item a {
-        padding: 15px 15px;
+    .nav-item .icon {
+        font-size: 17px;
+    }
+
+    .nav-item span:last-child {
         font-size: 13px;
+    }
+
+    .nav-item.active {
+        border-bottom-color: #9cc3ff;
     }
 
     /* محتوى الصفحة الرئيسية */
     .main-content {
         flex: 1;
-        padding: 15px;
+        padding: 0;
         overflow-y: auto;
     }
 
@@ -251,6 +287,14 @@
         flex-direction: column;
         gap: 12px;
         margin-bottom: 20px;
+        padding: 14px;
+        position: sticky;
+        top: 56px;
+        z-index: 50;
+    }
+
+    .tab-content {
+        padding: 14px;
     }
 
     .search-box {
@@ -290,7 +334,7 @@
     }
 
     .data-table {
-        min-width: 500px;
+        min-width: 720px;
     }
 
     .data-table th,
