@@ -1243,6 +1243,56 @@ function patchSubscriptionLogsForEmailChange(oldEmail, newEmail) {
 }
 
 let mailTransportCache = undefined;
+let sendgridMailClient = undefined;
+
+function getSendGridApiKey() {
+    return normalizeEnvSecret(process.env.SENDGRID_API_KEY || '');
+}
+
+async function sendAuthEmailViaSendGrid(to, subject, text, mailOpts, from) {
+    const apiKey = getSendGridApiKey();
+    if (!apiKey) {
+        return null;
+    }
+    if (!sendgridMailClient) {
+        try {
+            sendgridMailClient = require('@sendgrid/mail');
+        } catch (e) {
+            return { sent: false, error: 'sendgrid_module_missing' };
+        }
+        sendgridMailClient.setApiKey(apiKey);
+    }
+    const msg = {
+        to: String(to).trim(),
+        from: from,
+        subject: String(subject || ''),
+        text: String(text || '')
+    };
+    if (mailOpts && typeof mailOpts.html === 'string' && mailOpts.html.trim()) {
+        msg.html = mailOpts.html.trim();
+    }
+    if (mailOpts && Array.isArray(mailOpts.attachments) && mailOpts.attachments.length) {
+        msg.attachments = mailOpts.attachments.map((a) => ({
+            filename: a.filename,
+            type: a.contentType || 'application/octet-stream',
+            disposition: a.contentDisposition || 'attachment',
+            content: Buffer.isBuffer(a.content)
+                ? a.content.toString('base64')
+                : Buffer.from(a.content).toString('base64')
+        }));
+    }
+    try {
+        await sendgridMailClient.send(msg);
+        return { sent: true };
+    } catch (e) {
+        const body = e && e.response && e.response.body;
+        const errMsg =
+            (body && (typeof body === 'string' ? body : JSON.stringify(body))) ||
+            e.message ||
+            'sendgrid_failed';
+        return { sent: false, error: errMsg };
+    }
+}
 
 function getMailTransport() {
     if (mailTransportCache === null) {
@@ -1272,12 +1322,16 @@ function getMailTransport() {
 }
 
 async function sendAuthEmail(to, subject, text, mailOpts) {
+    const from =
+        normalizeEnvSecret(process.env.MAIL_FROM) || normalizeEnvSecret(process.env.SMTP_USER) || 'noreply@localhost';
+    const sgResult = await sendAuthEmailViaSendGrid(to, subject, text, mailOpts, from);
+    if (sgResult !== null) {
+        return sgResult;
+    }
     const tx = getMailTransport();
     if (!tx) {
         return { sent: false, error: 'smtp_disabled' };
     }
-    const from =
-        normalizeEnvSecret(process.env.MAIL_FROM) || normalizeEnvSecret(process.env.SMTP_USER) || 'noreply@localhost';
     try {
         const payload = { from, to: String(to).trim(), subject, text: String(text || '') };
         if (mailOpts && typeof mailOpts.html === 'string' && mailOpts.html.trim()) {
@@ -3754,8 +3808,12 @@ function tryListen(port) {
         writeClientPortFiles(port);
         console.log('[auth-server] مراقبة الخادم (لوحة الإدارة): GET /api/admin/server-monitor — رأس x-admin-key');
         console.log('[auth-server] إعداد المساعد للتطبيق: GET/PUT /api/admin/app-settings — GET /api/app-settings');
-        if (!process.env.SMTP_HOST) {
+        if (getSendGridApiKey()) {
+            console.log('[auth-server] إرسال البريد: SendGrid API (HTTPS)');
+        } else if (!process.env.SMTP_HOST) {
             console.warn('[auth-server] SMTP_HOST غير مضبوط — الإرسال التلقائي معطّل حتى تعديل .env');
+        } else {
+            console.log('[auth-server] إرسال البريد: SMTP — على Render Free قد يُحجب المنفذ 587');
         }
         cloudR2.logR2StartupStatus();
     });
