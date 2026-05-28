@@ -15,6 +15,8 @@ let adminData = cloneAdminDataFromSeed();
 const SUBSCRIPTION_LOGS_KEY = 'subscriptionLogs_INDEX2';
 const LAST_TOTAL_USERS_KEY = 'adminLastTotalUsersV1';
 let serverSubscriptionLogsCache = [];
+/** ملخص المساحة/الاشتراك من السيرفر (مفتاح = بريد بأحرف صغيرة) */
+let serverUserUsageSummariesCache = {};
 /** تسجيلات المستخدمين من السيرفر (نفس مصدر تبويب المستخدمين) — تُستخدم لدمج لوحة البيانات */
 const SERVER_REGISTRATIONS_CACHE_KEY = 'adminServerRegistrationsCacheV1';
 const SERVER_SUPPORT_TICKETS_CACHE_KEY = 'adminServerSupportTicketsCacheV1';
@@ -111,6 +113,80 @@ function escapeHtmlAttr(s) {
         .replace(/</g, '&lt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+}
+
+function usageSummaryForEmail(email) {
+    const key = String(email || '').trim().toLowerCase();
+    if (!key) return null;
+    const s = serverUserUsageSummariesCache[key];
+    return s && typeof s === 'object' ? s : null;
+}
+
+function formatStorageUsageLabel(summary) {
+    if (!summary) return '—';
+    const used = Number(summary.usedMb);
+    const quota = summary.quotaMb != null ? Number(summary.quotaMb) : NaN;
+    const usedStr = Number.isFinite(used) ? used.toFixed(2) : '0.00';
+    if (!Number.isFinite(quota)) {
+        return usedStr + ' MB';
+    }
+    return usedStr + ' / ' + quota + ' MB';
+}
+
+function formatDaysRemainingHtml(summary) {
+    if (!summary) {
+        return escapeHtmlAttr('—');
+    }
+    if (summary.expired === true) {
+        return '<span class="status-badge status-inactive">منتهي</span>';
+    }
+    const d = Number(summary.daysRemaining);
+    if (!Number.isFinite(d)) {
+        return escapeHtmlAttr('—');
+    }
+    if (d <= 0) {
+        return '<span class="status-badge status-inactive">منتهي</span>';
+    }
+    let cls = 'status-active';
+    if (d <= 7) cls = 'status-pending';
+    if (d <= 3) cls = 'status-inactive';
+    return '<span class="status-badge ' + cls + '">' + escapeHtmlAttr(String(d)) + ' يوم</span>';
+}
+
+function formatExpiryDateLabel(summary) {
+    if (!summary || !summary.expiryDate) return '—';
+    try {
+        return new Date(summary.expiryDate).toLocaleString('ar-EG');
+    } catch (e) {
+        return '—';
+    }
+}
+
+async function refreshServerUserUsageSummaries() {
+    await waitForAuthDiscoveryAdmin();
+    const AUTH = window.PR_SAFE_AUTH || {};
+    if (!AUTH.apiBase || !AUTH.adminKey) {
+        return false;
+    }
+    try {
+        const r = await fetch(`${AUTH.apiBase}/api/admin/user-usage-summaries`, {
+            headers: { 'x-admin-key': AUTH.adminKey },
+            cache: 'no-store'
+        });
+        if (!r.ok) {
+            return false;
+        }
+        const data = await r.json().catch(function () {
+            return {};
+        });
+        if (data && data.summaries && typeof data.summaries === 'object') {
+            serverUserUsageSummariesCache = data.summaries;
+            return true;
+        }
+    } catch (e) {
+        console.warn('refreshServerUserUsageSummaries:', e);
+    }
+    return false;
 }
 
 function hydrateServerRegistrationsCacheFromStorage() {
@@ -740,6 +816,7 @@ async function syncAdminDataNow(btn) {
     try {
         await refreshServerRegistrations();
         await refreshServerSubscriptionLogs();
+        await refreshServerUserUsageSummaries();
         await refreshServerSupportTickets();
         refreshAllAdminTabs();
         loadSupportTickets();
@@ -1193,6 +1270,7 @@ document.addEventListener('DOMContentLoaded', function() {
     (async function initAdminData() {
         await refreshServerRegistrations();
         await refreshServerSubscriptionLogs();
+        await refreshServerUserUsageSummaries();
         await refreshServerSupportTickets();
         refreshAllAdminTabs();
         await loadAdminAppAssistantSettings();
@@ -1447,9 +1525,14 @@ function updateActivityList() {
 }
 
 // تحميل الاشتراكات
-function loadSubscriptions() {
+async function loadSubscriptions() {
     const table = document.getElementById('subscriptionsTable');
     if (!table) return;
+    table.innerHTML =
+        '<tr><td colspan="7" style="text-align:center;padding:24px;">جاري التحميل…</td></tr>';
+
+    await refreshServerUserUsageSummaries();
+
     table.innerHTML = '';
 
     let list = adminData.subscriptions.slice();
@@ -1460,7 +1543,7 @@ function loadSubscriptions() {
 
     if (list.length === 0) {
         table.innerHTML =
-            '<tr><td colspan="5" style="text-align:center;padding:24px;">لا توجد اشتراكات في هذا الفلتر.</td></tr>';
+            '<tr><td colspan="7" style="text-align:center;padding:24px;">لا توجد اشتراكات في هذا الفلتر.</td></tr>';
         return;
     }
 
@@ -1472,18 +1555,27 @@ function loadSubscriptions() {
             'INDEX4': 'الخطة المتقدمة',
             'INDEX5': 'الخطة المميزة السحابية'
         };
+        const usage = usageSummaryForEmail(sub.email);
 
         row.innerHTML = `
-            <td>${sub.email}</td>
-            <td>${planNames[sub.plan] || sub.plan}</td>
-            <td>${sub.date}</td>
-            <td><span class="status-badge status-${subscriptionStatusClass(sub)}">${subscriptionStatusLabel(sub)}</span></td>
+            <td>${escapeHtmlAttr(sub.email)}</td>
+            <td>${escapeHtmlAttr(planNames[sub.plan] || sub.plan)}</td>
+            <td>${escapeHtmlAttr(sub.date)}</td>
+            <td>${escapeHtmlAttr(formatStorageUsageLabel(usage))}</td>
+            <td>${formatDaysRemainingHtml(usage)}</td>
+            <td><span class="status-badge status-${subscriptionStatusClass(sub)}">${escapeHtmlAttr(subscriptionStatusLabel(sub))}</span></td>
             <td>
                 <div class="action-buttons">
-                    <button class="btn-action btn-view" onclick="viewSubscriptionDetails('${sub.id}')">عرض</button>
+                    <button class="btn-action btn-view" data-sub-id="${escapeHtmlAttr(String(sub.id))}">عرض</button>
                 </div>
             </td>
         `;
+        const viewBtn = row.querySelector('.btn-view');
+        if (viewBtn) {
+            viewBtn.addEventListener('click', function () {
+                viewSubscriptionDetails(sub.id);
+            });
+        }
         table.appendChild(row);
     });
 }
@@ -1542,7 +1634,7 @@ async function loadUsers() {
     const table = document.getElementById('usersTable');
     if (!table) return;
     table.innerHTML =
-        '<tr><td colspan="6" style="text-align:center;padding:24px;">جاري التحميل…</td></tr>';
+        '<tr><td colspan="8" style="text-align:center;padding:24px;">جاري التحميل…</td></tr>';
 
     hydrateServerRegistrationsCacheFromStorage();
 
@@ -1565,6 +1657,7 @@ async function loadUsers() {
                 }
                 refreshAdminDataFromLocalStorage();
             }
+            await refreshServerUserUsageSummaries();
         } catch (e) {
             console.warn('loadUsers:', e);
         }
@@ -1587,7 +1680,7 @@ async function loadUsers() {
 
     if (!rows.length) {
         table.innerHTML =
-            '<tr><td colspan="6" style="text-align:center;padding:24px;">لا تسجيلات بعد على خادم التحقق. شغّل <code>npm run auth-server</code> ثم سجّل مستخدماً من التطبيق، أو اضغط «مزامنة فورية».</td></tr>';
+            '<tr><td colspan="8" style="text-align:center;padding:24px;">لا تسجيلات بعد على خادم التحقق. شغّل <code>npm run auth-server</code> ثم سجّل مستخدماً من التطبيق، أو اضغط «مزامنة فورية».</td></tr>';
         return;
     }
 
@@ -1601,7 +1694,7 @@ async function loadUsers() {
 
     if (list.length === 0) {
         table.innerHTML =
-            '<tr><td colspan="6" style="text-align:center;padding:24px;">لا مستخدمين ضمن الفلتر الحالي.</td></tr>';
+            '<tr><td colspan="8" style="text-align:center;padding:24px;">لا مستخدمين ضمن الفلتر الحالي.</td></tr>';
         return;
     }
 
@@ -1627,6 +1720,7 @@ async function loadUsers() {
         const statusBadge = reg.verified
             ? '<span class="status-badge status-active">نشط</span>'
             : '<span class="status-badge status-pending">بانتظار التفعيل</span>';
+        const usage = usageSummaryForEmail(email);
         const showManual =
             !reg.verified && window.PR_SAFE_AUTH && window.PR_SAFE_AUTH.enableManualEmailFallback !== false;
         const manualBtn = showManual
@@ -1639,6 +1733,10 @@ async function loadUsers() {
             escapeHtmlAttr(email) +
             '</td><td>' +
             escapeHtmlAttr(planNames[plan] || plan) +
+            '</td><td>' +
+            escapeHtmlAttr(formatStorageUsageLabel(usage)) +
+            '</td><td>' +
+            formatDaysRemainingHtml(usage) +
             '</td><td>' +
             escapeHtmlAttr(created) +
             '</td><td>' +
@@ -1957,13 +2055,23 @@ function confirmActivate() {
 function viewSubscriptionDetails(id) {
     const sub = adminData.subscriptions.find(s => s.id == id);
     if (sub) {
+        const usage = usageSummaryForEmail(sub.email);
         const modal = document.getElementById('detailsModal');
         document.getElementById('modalTitle').textContent = 'تفاصيل الاشتراك';
+        const daysLine =
+            usage && usage.expired === true
+                ? 'منتهي'
+                : usage && usage.daysRemaining != null
+                  ? usage.daysRemaining + ' يوم'
+                  : '—';
         document.getElementById('modalBody').innerHTML = `
-            <p><strong>البريد الإلكتروني:</strong> ${sub.email}</p>
-            <p><strong>الخطة:</strong> ${sub.plan}</p>
-            <p><strong>تاريخ الاشتراك:</strong> ${sub.date}</p>
-            <p><strong>الحالة:</strong> ${subscriptionStatusLabel(sub)}</p>
+            <p><strong>البريد الإلكتروني:</strong> ${escapeHtmlAttr(sub.email)}</p>
+            <p><strong>الخطة:</strong> ${escapeHtmlAttr(sub.plan)}</p>
+            <p><strong>تاريخ الاشتراك:</strong> ${escapeHtmlAttr(sub.date)}</p>
+            <p><strong>المساحة المستخدمة:</strong> ${escapeHtmlAttr(formatStorageUsageLabel(usage))}</p>
+            <p><strong>الأيام المتبقية:</strong> ${escapeHtmlAttr(daysLine)}</p>
+            <p><strong>تاريخ الانتهاء:</strong> ${escapeHtmlAttr(formatExpiryDateLabel(usage))}</p>
+            <p><strong>الحالة:</strong> ${escapeHtmlAttr(subscriptionStatusLabel(sub))}</p>
         `;
         modal.style.display = 'flex';
     }
@@ -2005,17 +2113,30 @@ function viewUserDetails(email) {
     const key = String(email || '').trim().toLowerCase();
     const user = adminData.users.find((u) => String(u.email || '').trim().toLowerCase() === key);
     document.getElementById('modalTitle').textContent = 'تفاصيل المستخدم';
+    const usage = usageSummaryForEmail(email);
+    const daysLine =
+        usage && usage.expired === true
+            ? 'منتهي'
+            : usage && usage.daysRemaining != null
+              ? usage.daysRemaining + ' يوم'
+              : '—';
     if (user) {
         document.getElementById('modalBody').innerHTML = `
-            <p><strong>البريد الإلكتروني:</strong> ${user.email}</p>
-            <p><strong>الخطة الحالية:</strong> ${user.plan}</p>
-            <p><strong>تاريخ الإنشاء:</strong> ${user.created}</p>
-            <p><strong>آخر دخول:</strong> ${user.lastLogin}</p>
+            <p><strong>البريد الإلكتروني:</strong> ${escapeHtmlAttr(user.email)}</p>
+            <p><strong>الخطة الحالية:</strong> ${escapeHtmlAttr(user.plan)}</p>
+            <p><strong>المساحة المستخدمة:</strong> ${escapeHtmlAttr(formatStorageUsageLabel(usage))}</p>
+            <p><strong>الأيام المتبقية:</strong> ${escapeHtmlAttr(daysLine)}</p>
+            <p><strong>تاريخ الانتهاء:</strong> ${escapeHtmlAttr(formatExpiryDateLabel(usage))}</p>
+            <p><strong>تاريخ الإنشاء:</strong> ${escapeHtmlAttr(user.created)}</p>
+            <p><strong>آخر دخول:</strong> ${escapeHtmlAttr(user.lastLogin)}</p>
             <p><strong>الحالة:</strong> ${user.status === 'active' ? 'نشط' : 'غير نشط'}</p>
         `;
     } else {
         document.getElementById('modalBody').innerHTML = `
-            <p><strong>البريد الإلكتروني:</strong> ${email}</p>
+            <p><strong>البريد الإلكتروني:</strong> ${escapeHtmlAttr(email)}</p>
+            <p><strong>المساحة المستخدمة:</strong> ${escapeHtmlAttr(formatStorageUsageLabel(usage))}</p>
+            <p><strong>الأيام المتبقية:</strong> ${escapeHtmlAttr(daysLine)}</p>
+            <p><strong>تاريخ الانتهاء:</strong> ${escapeHtmlAttr(formatExpiryDateLabel(usage))}</p>
             <p>مسجّل على خادم التحقق. التفاصيل الإضافية تظهر في لوحة «تفعيل البريد» وملف <code>server/data/registrations.json</code>.</p>
         `;
     }
