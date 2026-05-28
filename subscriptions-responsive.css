@@ -1,0 +1,286 @@
+/* ==================== استعلامات الوسائط لصفحة الاشتراكات - Subscriptions Media Queries ==================== */
+
+/* شاشات صغيرة جداً - Extra Small */
+@media (max-width: 480px) {
+    .subscriptions-container {
+        padding: 12px;
+        min-height: 100vh;
+    }
+
+    .subscriptions-header {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .subscriptions-header .header-content {
+        transform: translateX(10px);
+    }
+
+    .subscriptions-header .header-content h1 {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .subscriptions-header .header-subtitle {
+        font-size: 13px;
+    }
+
+    .subscriptions-header .btn-back {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .plans-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .plan-card {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+
+    .plan-badge {
+        top: -10px;
+        left: 15px;
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .plan-header h2 {
+        font-size: 20px;
+    }
+
+    .plan-price {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .plan-price .price {
+        font-size: 32px;
+    }
+
+    .plan-price .currency {
+        font-size: 16px;
+    }
+
+    .plan-price .period {
+        font-size: 12px;
+    }
+
+    .plan-features {
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .feature {
+        padding: 10px;
+        gap: 8px;
+        border-radius: 6px;
+    }
+
+    .feature-icon {
+        font-size: 18px;
+        min-width: 24px;
+    }
+
+    .feature-text {
+        font-size: 12px;
+    }
+
+    .btn-subscribe {
+        padding: 12px 15px;
+        font-size: 13px;
+        border-radius: 6px;
+    }
+
+    .comparison-section {
+        padding: 15px 12px;
+        border-radius: 12px;
+    }
+
+    .comparison-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .comparison-table-wrap {
+        border-radius: 12px;
+    }
+
+    .comparison-table {
+        font-size: 11px;
+        min-width: 480px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 8px 5px;
+        font-size: 10px;
+    }
+
+    .comparison-table th {
+        font-size: 11px;
+    }
+
+    .terms-section-subscriptions {
+        padding: 12px;
+        margin-top: 15px;
+        font-size: 11px;
+        gap: 8px;
+    }
+
+    .terms-section-subscriptions input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* شاشات صغيرة - Small */
+@media (max-width: 768px) {
+    .subscriptions-container {
+        overflow-y: auto;
+    }
+
+    .plans-container {
+        grid-template-columns: 1fr;
+    }
+
+    .plan-card {
+        padding: 25px 18px;
+    }
+
+    .plan-header h2 {
+        font-size: 22px;
+    }
+
+    .plan-price .price {
+        font-size: 36px;
+    }
+
+    .btn-subscribe {
+        padding: 13px 20px;
+        font-size: 14px;
+    }
+
+    .comparison-section {
+        margin-top: 30px;
+    }
+
+    .terms-section-subscriptions {
+        padding: 14px;
+        gap: 10px;
+    }
+}
+
+/* شاشات متوسطة - Medium */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .plans-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .plan-card {
+        padding: 30px 24px;
+    }
+
+    .comparison-section {
+        padding: 30px 25px;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 15px;
+    }
+}
+
+/* شاشات كبيرة - Large */
+@media (min-width: 1025px) {
+    .subscriptions-container {
+        overflow-y: auto;
+    }
+
+    .plans-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+}
+
+/* اتجاهات الشاشات - Landscape */
+@media (orientation: landscape) and (max-height: 500px) {
+    .subscriptions-container {
+        padding: 10px;
+    }
+
+    .subscriptions-header {
+        margin-bottom: 15px;
+    }
+
+    .plans-container {
+        gap: 15px;
+    }
+
+    .plan-card {
+        padding: 15px 12px;
+    }
+
+    .plan-features {
+        gap: 8px;
+    }
+
+    .feature {
+        padding: 6px;
+    }
+
+    .btn-subscribe {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* أجهزة لمسية - Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+    .btn-subscribe,
+    .btn-back {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+
+    .plan-card {
+        -webkit-tap-highlight-color: rgba(102, 126, 234, 0.1);
+        tap-highlight-color: rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-subscribe:active {
+        transform: scale(0.95);
+    }
+
+    .terms-section-subscriptions input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* تحسينات الطباعة - Print */
+@media print {
+    .subscriptions-header .btn-back {
+        display: none;
+    }
+
+    .btn-subscribe {
+        display: none;
+    }
+
+    .plan-card {
+        page-break-inside: avoid;
+    }
+
+    .plans-container {
+        grid-template-columns: 1fr;
+    }
+}
