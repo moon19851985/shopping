@@ -10380,10 +10380,41 @@ async function downloadFileToSystem(file) {
             }
             
             // ✅ تنزيل الملف
+            const downloadName = ensureDownloadFileName_INDEX2(file.name, exportMime);
+            const ua = String((typeof navigator !== 'undefined' && navigator.userAgent) || '');
+            const isAndroidChrome =
+                /Android/i.test(ua) &&
+                /Chrome/i.test(ua) &&
+                !/EdgA|OPR|SamsungBrowser|CriOS/i.test(ua);
             const url = URL.createObjectURL(blob);
+
+            if (isAndroidChrome) {
+                try {
+                    if (
+                        typeof File !== 'undefined' &&
+                        navigator &&
+                        typeof navigator.share === 'function' &&
+                        typeof navigator.canShare === 'function'
+                    ) {
+                        const shareFile = new File([blob], downloadName, {
+                            type: blob.type || exportMime || 'application/octet-stream'
+                        });
+                        if (navigator.canShare({ files: [shareFile] })) {
+                            await navigator.share({ files: [shareFile], title: downloadName });
+                            showNotification(`✅ تم تنزيل/مشاركة الملف: ${downloadName}`);
+                            URL.revokeObjectURL(url);
+                            resolve();
+                            return;
+                        }
+                    }
+                } catch (shareErr) {
+                    console.warn('⚠️ تعذر استخدام مشاركة النظام على Chrome Android:', shareErr);
+                }
+            }
+
             const link = document.createElement('a');
             link.href = url;
-            link.download = ensureDownloadFileName_INDEX2(file.name, exportMime);
+            link.download = downloadName;
             link.style.display = 'none';
             
             // إضافة الرابط للـ DOM وتنزيل الملف
@@ -10403,6 +10434,14 @@ async function downloadFileToSystem(file) {
                     cancelable: true
                 });
                 link.dispatchEvent(event);
+                if (isAndroidChrome) {
+                    try {
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                        showNotification('ℹ️ على Chrome الجوال: افتح الملف ثم اختر تنزيل');
+                    } catch (openErr) {
+                        console.warn('⚠️ فشل فتح الملف في تبويب جديد:', openErr);
+                    }
+                }
             }
             
             // تنظيف
