@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="بيانات البطاقة — GOSTA">
+    <meta name="theme-color" content="#0f1d3d">
+    <title>بيانات البطاقة — GOSTA</title>
+    <link rel="stylesheet" href="payment-styles.css">
+    <link rel="stylesheet" href="card-payment-styles.css">
+    <link rel="stylesheet" href="payment-methods-responsive.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="mobile-app.css">
+</head>
+<body>
+    <div class="payment-container">
+        <!-- رأس الصفحة -->
+        <div class="payment-header">
+            <button type="button" class="btn-back" onclick="goBackToElectronic()">⬅ عودة</button>
+            <div class="payment-header-text">
+                <h1>بيانات البطاقة</h1>
+                <p class="payment-header-subtitle">أدخل بيانات البطاقة لإتمام الدفع</p>
+            </div>
+        </div>
+
+        <div class="plan-summary plan-summary-cards">
+            <div class="summary-item">
+                <span class="summary-label">الخطة:</span>
+                <span class="summary-value" id="planName">-</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">نوع البطاقة:</span>
+                <span class="summary-value" id="cardType">-</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">المبلغ المستحق:</span>
+                <span class="summary-value" id="planPrice">-</span>
+            </div>
+        </div>
+
+        <!-- نموذج بيانات البطاقة -->
+        <div class="card-form-section">
+            <!-- method="post" + autocomplete على الحقول يُمكّن المتصفح/النظام من عرض «البطاقات المحفوظة» وتعبئة الحقول (مثل Chrome) — لا يُستبدل بخانة الحفظ المخصصة -->
+            <form id="cardPaymentForm" method="post" action="" autocomplete="on" novalidate>
+                <fieldset class="card-payment-fieldset">
+                <legend class="sr-only">بيانات البطاقة لإتمام الدفع</legend>
+                <!-- عرض بطاقة معاينة -->
+                <div class="card-preview">
+                    <div class="card-display">
+                        <div class="card-number-display" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+                        <div class="card-details">
+                            <div class="card-holder">
+                                <label>صاحب البطاقة</label>
+                                <div id="cardHolderDisplay">YOUR NAME</div>
+                            </div>
+                            <div class="card-expiry">
+                                <label>ينتهي في</label>
+                                <div id="cardExpiryDisplay">MM/YY</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- حقول الإدخال -->
+                <div class="form-group">
+                    <label for="cardNumber">رقم البطاقة</label>
+                    <input type="text" id="cardNumber" name="cardnumber" inputmode="numeric" autocomplete="cc-number" autocorrect="off" spellcheck="false" placeholder="1234 5678 9012 3456" maxlength="23" required>
+                    <span class="card-logo" id="cardLogo">💳</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardHolder">اسم صاحب البطاقة</label>
+                    <input type="text" id="cardHolder" name="ccname" autocomplete="cc-name" autocapitalize="characters" placeholder="أدخل الاسم كما يظهر على البطاقة" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiryDate">تاريخ الانتهاء (MM/YY)</label>
+                        <input type="text" id="expiryDate" name="cc-exp" inputmode="numeric" autocomplete="cc-exp" autocorrect="off" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">رمز CVV</label>
+                        <span class="cvv-security-note">لا يُكمل تلقائياً مع البطاقات المحفوظة — أدخل الرمز يدوياً بعد اختيار البطاقة.</span>
+                        <!-- عمداً بدون autocomplete=cc-csc: أمنياً لا يُشجّع المتصفح على حفظ/ملء رمز الأمان مع البطاقة -->
+                        <input type="text" id="cvv" name="securityCode" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="•••" maxlength="4" required>
+                    </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="saveCard" name="saveCard" autocomplete="off">
+                    <label for="saveCard">حفظ بيانات البطاقة بأمان للمستقبل</label>
+                </div>
+                <p id="savedCardHint" class="saved-card-hint" style="display: none;" role="status"></p>
+
+                <!-- شروط والأحكام — الرابط خارج label حتى يعمل على الجوال دون تبديل خانة الموافقة فقط -->
+                <div class="terms-agreement">
+                    <input type="checkbox" id="agreePayment" required>
+                    <div class="terms-agreement-body">
+                        <label for="agreePayment" class="terms-agreement-label">أوافق على إجراء عملية الدفع و</label>
+                        <a href="terms-of-service.html" target="_blank" rel="noopener noreferrer" class="terms-agreement-link">الشروط والأحكام</a>
+                    </div>
+                </div>
+
+                <!-- زر الدفع -->
+                <button type="submit" class="btn-pay-now" onclick="processCardPayment(event)">
+                    💳 إتمام الدفع
+                </button>
+                </fieldset>
+            </form>
+        </div>
+
+        <!-- معلومات الأمان -->
+        <div class="security-info">
+            <div class="security-item">
+                <span class="security-icon">🔒</span>
+                <span>البيانات محمية بتشفير SSL 256-bit</span>
+            </div>
+            <div class="security-item">
+                <span class="security-icon">✅</span>
+                <span>موثق من قبل معايير PCI DSS</span>
+            </div>
+            <div class="security-item">
+                <span class="security-icon">🛡️</span>
+                <span>حماية كاملة ضد الاحتيال</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- قسم معالجة الدفع -->
+    <div id="processingSection" class="processing-section" style="display: none;">
+        <div class="processing-content">
+            <div class="processing-spinner"></div>
+            <h2 id="processingTitle">جاري معالجة الدفع...</h2>
+            <p id="processingMessage">يرجى عدم إغلاق هذه الصفحة</p>
+        </div>
+    </div>
+
+    <!-- رسالة النجاح -->
+    <div id="successMessage" class="success-message" style="display: none;">
+        <div class="success-content">
+            <div class="success-icon">✅</div>
+            <h2>تم الدفع بنجاح!</h2>
+            <p>شكراً لاشتراكك في خدماتنا</p>
+            <p class="success-details">تم تفعيل اشتراكك بنجاح، وتم إرسال فاتورة الدفع إلى بريدك الإلكتروني.</p>
+            <button onclick="goBackHome()">العودة إلى الرئيسية</button>
+        </div>
+    </div>
+
+    <!-- رسالة الخطأ -->
+    <div id="errorMessage" class="error-message" style="display: none;">
+        <div class="error-content">
+            <div class="error-icon">❌</div>
+            <h2>حدث خطأ!</h2>
+            <p id="errorText">فشل في معالجة الدفع</p>
+            <button onclick="hideErrorMessage()">إغلاق</button>
+        </div>
+    </div>
+
+    <script src="pr-safe-auth-port.js"></script>
+    <script src="pr-safe-auth-production.js"></script>
+    <script src="pr-safe-auth-config.js"></script>
+    <script src="user-storage-scope.js"></script>
+    <script src="subscription-check.js"></script>
+    <script src="card-payment.js"></script>
+</body>
+</html>
