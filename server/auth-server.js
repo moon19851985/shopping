@@ -71,13 +71,40 @@ function parseAllowedOrigins(raw) {
 }
 
 const ADMIN_KEY = normalizeEnvSecret(process.env.ADMIN_API_KEY || 'dev-admin-key-change-me');
-const ALLOWED_ORIGINS = parseAllowedOrigins(process.env.ALLOWED_ORIGINS);
+const ALLOWED_ORIGINS_ENV = parseAllowedOrigins(process.env.ALLOWED_ORIGINS);
+/** أصول تطبيق Capacitor (Android/iOS) — تصل إلى API على استضافة منفصلة */
+const NATIVE_APP_CORS_ORIGINS = [
+    'https://localhost',
+    'http://localhost',
+    'capacitor://localhost',
+    'ionic://localhost'
+];
+
+function getSelfServiceCorsOrigins() {
+    const out = [];
+    for (const key of ['RENDER_EXTERNAL_URL', 'API_PUBLIC_ORIGIN']) {
+        const v = String(process.env[key] || '')
+            .trim()
+            .replace(/\/+$/, '');
+        if (v && /^https?:\/\//i.test(v)) {
+            out.push(v);
+        }
+    }
+    return out;
+}
+
+const EFFECTIVE_ALLOWED_ORIGINS = Array.from(
+    new Set([...ALLOWED_ORIGINS_ENV, ...getSelfServiceCorsOrigins(), ...NATIVE_APP_CORS_ORIGINS])
+);
+
 if (IS_PRODUCTION) {
     if (!ADMIN_KEY || ADMIN_KEY === 'dev-admin-key-change-me' || ADMIN_KEY.length < 24) {
         throw new Error('ADMIN_API_KEY must be strong (>=24 chars) in production');
     }
-    if (ALLOWED_ORIGINS.length === 0) {
-        throw new Error('ALLOWED_ORIGINS is required in production (comma-separated list)');
+    if (ALLOWED_ORIGINS_ENV.length === 0 && getSelfServiceCorsOrigins().length === 0) {
+        throw new Error(
+            'ALLOWED_ORIGINS is required in production (comma-separated HTTPS origins), or set RENDER_EXTERNAL_URL / API_PUBLIC_ORIGIN'
+        );
     }
 }
 
@@ -1657,6 +1684,31 @@ function adminAuth(req, res, next) {
 }
 
 const app = express();
+function isLocalDevCorsOrigin(origin) {
+    if (!origin || typeof origin !== 'string') {
+        return false;
+    }
+    try {
+        const u = new URL(origin);
+        const h = String(u.hostname || '').toLowerCase();
+        if (h === 'localhost' || h === '127.0.0.1') {
+            return true;
+        }
+        if (/^192\.168\.\d{1,3}\.\d{1,3}$/.test(h)) {
+            return true;
+        }
+        if (/^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(h)) {
+            return true;
+        }
+        if (/^172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}$/.test(h)) {
+            return true;
+        }
+    } catch (e) {
+        return false;
+    }
+    return false;
+}
+
 app.use(
     cors({
         origin: function (origin, cb) {
@@ -1666,10 +1718,13 @@ app.use(
             if (!IS_PRODUCTION) {
                 return cb(null, true);
             }
-            if (ALLOWED_ORIGINS.includes(origin)) {
+            if (EFFECTIVE_ALLOWED_ORIGINS.includes(origin)) {
                 return cb(null, true);
             }
-            return cb(new Error('CORS origin not allowed'));
+            if (isLocalDevCorsOrigin(origin)) {
+                return cb(null, true);
+            }
+            return cb(null, false);
         }
     })
 );
